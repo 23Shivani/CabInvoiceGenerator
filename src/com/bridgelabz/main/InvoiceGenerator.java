@@ -23,5 +23,13 @@ public class InvoiceGenerator {
 		}
 		return totalfare;
 	}
-	
+	public InvoiceSummary calculateTotalFare(Ride[] ride) {
+		double totalfare = 0;
+		double averageFare = 0;
+		for(Ride rides: ride) {
+			totalfare += this.calculateFare(rides.distance, rides.minute);	
+		}
+		 averageFare = totalfare/ride.length;
+		return new InvoiceSummary(ride.length, totalfare, averageFare);
+	}	
 }
