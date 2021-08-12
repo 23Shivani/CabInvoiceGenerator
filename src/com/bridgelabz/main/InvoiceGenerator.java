@@ -1,6 +1,10 @@
 package com.bridgelabz.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InvoiceGenerator {
+
 	private static final int costPerMinute =1;
 	private static final double minCostPerKm =10;
 	private static final double minfare = 5;
@@ -23,6 +27,7 @@ public class InvoiceGenerator {
 		}
 		return totalfare;
 	}
+	
 	public InvoiceSummary calculateTotalFare(Ride[] ride) {
 		double totalfare = 0;
 		double averageFare = 0;
@@ -31,5 +36,45 @@ public class InvoiceGenerator {
 		}
 		 averageFare = totalfare/ride.length;
 		return new InvoiceSummary(ride.length, totalfare, averageFare);
-	}	
+	}
+	
+	public double calculateFare(String choice, double distance, int minute) {
+		if(choice.equalsIgnoreCase("Normal")) {
+			int costPerMinute =1;
+			double minCostPerKm =10;
+			double minfare = 5;
+			double totalfare = (distance * minCostPerKm) + (minute * costPerMinute);
+			return totalfare;
+		}else if(choice.equalsIgnoreCase("Premium")) {
+			int costPerMinute =2;
+			double minCostPerKm =15;
+			double minfare = 20;
+			double totalfare = (distance * minCostPerKm) + (minute * costPerMinute);
+			return totalfare;
+		}
+		double totalfare = (distance * minCostPerKm) + (minute * costPerMinute);
+		return totalfare;
+	}
+	
+
+    public InvoiceRecords findInvoice(String userId) throws InvalidInputException{
+		try {
+    	List<InvoiceRecords> list = new ArrayList<InvoiceRecords>();
+		list.add(new InvoiceRecords("U01",3,363,121));
+		list.add(new InvoiceRecords("U02",2,340,170));
+		list.add(new InvoiceRecords("U03",4,208,52));
+		list.add(new InvoiceRecords("U04",8,480,60));
+		
+		InvoiceRecords user = null;
+		  for (int i = 0; i < list.size(); i++) {
+			if (userId.equals(list.get(i).getUserId())) {
+				user = list.get(i);
+			        break;
+			 } 
+		   }
+		return user;
+		}catch (NullPointerException ae ) {
+			throw new InvalidInputException("Invalid Input!No Records Found");
+		}
+	}
 }
